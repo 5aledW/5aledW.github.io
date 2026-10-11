@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TrackerTV — Email confirmed</title>
+    <meta name="robots" content="noindex" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <a class="logo" href="./">TV</a>
+        <div class="name">Tracker<span>TV</span></div>
+      </header>
+
+      <div id="ok">
+        <h1>✅ Your email is confirmed</h1>
+        <p>You’re all set. Go back to the <strong>TrackerTV</strong> app and sign in with your email and password.</p>
+      </div>
+
+      <div id="failed" hidden>
+        <h1>This link didn’t work</h1>
+        <p id="reason">The link may have expired or already been used.</p>
+        <p>
+          Try signing in to the TrackerTV app anyway — if your email was already confirmed, it will work. Otherwise,
+          sign up again to get a new link, or email
+          <a href="mailto:trackertv.app1@gmail.com">trackertv.app1@gmail.com</a> and we’ll help.
+        </p>
+      </div>
+
+      <footer>
+        <a href="./">Support</a>
+        <a href="privacy.html">Privacy policy</a>
+        <span>© 2026 TrackerTV</span>
+      </footer>
+    </main>
+    <script>
+      // Supabase adds "#error=...&error_description=..." when a link is expired or invalid.
+      var params = new URLSearchParams(window.location.hash.slice(1) || window.location.search.slice(1));
+      if (params.get('error') || params.get('error_code')) {
+        document.getElementById('ok').hidden = true;
+        document.getElementById('failed').hidden = false;
+        var description = params.get('error_description');
+        if (description) document.getElementById('reason').textContent = description.replace(/\+/g, ' ') + '.';
+      }
+      // Don't leave the one-time login tokens sitting in the address bar.
+      if (window.location.hash) history.replaceState(null, '', window.location.pathname);
+    </script>
+  </body>
+</html>
